@@ -6,12 +6,12 @@ import imutils
 import cv2
 from Tracked import Tracked
 import numpy as np
-from DB_utilities import bbdb
+from SkyScanner_DB import bbdb
 #from PIL import Image
 #from flask import Flask, request, session, render_template
 from BBVideo import BBVideo
 import threading
-from globals import globals
+from Globals import Globals
 from workerthreads import workerThread
 from PIL import Image
 
@@ -41,13 +41,13 @@ class BBProcessingThread(workerThread):
 		return self._stop.isSet()
 
 	def run(self):
-		dbFileName = globals.get("DB")
+		dbFileName = Globals.get("DB")
 		db = bbdb(dbFileName)
-		currentSession = globals.get("Camera Session")
+		currentSession = Globals.get("Camera Session")
 		BBScale = 100
 		MinArea = 25
-		inputt = globals.get("inputt")
-		bbv = globals.get("BB Video Results")
+		inputt = Globals.get("inputt")
+		bbv = Globals.get("BB Video Results")
 
 		files = db.getSessionFiles(currentSession) #Now we have a list of video files, lets play the video files in sequence
 		self.BB = BirdBuddy(dbFileName, currentSession, BBScale, MinArea, self.outputVisual)
@@ -63,7 +63,7 @@ class BBProcessingThread(workerThread):
 		self.BB.finish(db) #Write out all remaining data and close up the window
 		#Remake the bbv object to summarize the output of BB from its database records
 		bbv = BBVideo(db, currentSession)
-		globals.set("BB Video Results", bbv)
+		Globals.set("BB Video Results", bbv)
 		self.stop()
 
 class BirdBuddy:

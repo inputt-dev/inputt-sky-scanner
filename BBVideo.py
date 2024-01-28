@@ -6,8 +6,8 @@ import base64
 from io import BytesIO
 from imutils.video import FileVideoStream
 import matplotlib.pyplot as plt
-from globals import globals
-from DB_utilities import bbdb
+from Globals import Globals
+from SkyScanner_DB import bbdb
 
 class VideoFileMetaInformation():
 	#A class to store meta information about a file in the file system
@@ -112,7 +112,7 @@ class BBVideo(object):
 		return (self.path, frame)
 	def getFrames(self, start, end): #Return a frame 
 		#Return a frame from the video file, load it from HR images if its saved already, otherwise load it from the video file
-		db = bbdb(globals.get("DB"))
+		db = bbdb(Globals.get("DB"))
 		hr = db.getAllHRImages(self.path) #A list of tuples [(frameindex, filename),...]
 		try:
 			imagePath = hr[frameIndex]

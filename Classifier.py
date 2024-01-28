@@ -1,8 +1,8 @@
 import datetime
-from DB_utilities import bbdb
+from SkyScanner_DB import bbdb
 import cv2
 from pynput.keyboard import Key
-from globals import globals
+from Globals import Globals
 import numpy as np
 
 class Classifier(object):
@@ -12,7 +12,7 @@ class Classifier(object):
 
 	def load(self, name):
 		self.name = name
-		db = bbdb(globals.get("DB"))
+		db = bbdb(Globals.get("DB"))
 		self.samples = db.getClassificationSampleImages(self.name) #A list of the classification sample images selected by the user
 		classifierDBRow = db.getClassifier(self.name) #Get the image classifier from the database, as pandas dataframe
 		#Now move the elements from the data frame into the python object
@@ -58,8 +58,8 @@ class Classifier(object):
 	def setFrame(self, frameindex):
 		#Change the frame being displayed and worked on
 		#get movement tracking boxes
-		bbv = globals.get("BB Video Results")
-		db = bbdb(globals.get("DB"))
+		bbv = Globals.get("BB Video Results")
+		db = bbdb(Globals.get("DB"))
 
 		self.frameIndex = frameindex
 		try:

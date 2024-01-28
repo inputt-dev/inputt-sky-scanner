@@ -2,9 +2,9 @@ import datetime
 import os
 import cv2
 import threading
-from DB_utilities import bbdb
+from SkyScanner_DB import bbdb
 from workerthreads import workerThread
-from globals import threads, globals
+from Globals import threads, Globals
 
 def sanitizePath(value):
 	deletechars = '\/:*?"<>|. '
